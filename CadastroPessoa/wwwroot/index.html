@@ -1,0 +1,330 @@
+﻿<html>
+
+<head>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+    <script src="js/knockout.js"></script>
+   
+    <link rel="stylesheet" type="text/css" href="./css/estilo.css" />
+
+</head>
+
+<body>
+    
+
+    <div class="frm">
+       
+        <table class="table">
+            
+            <tr class="row">
+                
+                <td>
+                    
+                    <table id="tbldml">
+                        
+                        <tr> 
+                            <td></td>
+                            <td><h1 class="titulo"> Cadastro de Pessoas</h1></td>
+                        </tr>
+                        <tr>
+                            <td class="labelForm"> Id:  </td>
+                            <td> <input type="text" id="textid" data-bind="value: $root.Id" disabled="disabled" /> </td>
+                        </tr>
+                        <tr>
+                            <td class="labelForm"> Nome: </td>
+                            <td> <input type="text" id="textnome" data-bind="value: $root.Nome" min="" required /> </td>
+                        </tr>
+                        <tr>
+                            <td class="labelForm"> Cpf: </td>
+                            <td> <input type="text" id="textcpf" data-bind="value: $root.Cpf" placeholder="Ex.: 000.000.000-00" required /> </td>
+                        </tr>
+                        <tr>
+                            <td class="labelForm"> Sexo: </td>
+
+                            <td>
+                                <select class="SelectSexo" id="textsexo" data-bind="value: $root.Sexo">
+                                    <option value="M" selected> Masculino</option>
+                                    <option value="F">Feminino</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="labelForm"> Idade: </td>
+                            <td> <input type="number" id="textidade" data-bind="value: $root.Idade" required /> </td>
+                        </tr>
+                        <tr>
+                            <td class="labelForm"> Cidade: </td>
+                            <td> <input type="text" id="textcidade" data-bind="value: $root.Cidade" required /> </td>
+                        </tr>
+                        <tr>
+                            <td class="labelForm"> Estado: </td>
+                            <td>
+                                <select class="SelectSexo" id="textestado" data-bind="value: $root.Estado">
+                                    <option value="AC" selected>Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal </option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul 	</option>
+                                    <option value="MG">Minas Gerais </option>
+                                    <option value="PA">Pará </option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro </option>
+                                    <option value="RN">Rio Grande do Norte </option>
+                                    <option value="RS">Rio Grande do Sul </option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima </option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+
+                                </select>
+                            </td>
+                        </tr>
+
+
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="botoes">
+        <button class="btnNovo" id="novoCadastro" data-bind="click: $root.limparCadastro" onclick="novaPessoa()" disabled> Novo </button>
+        <button class="btnSalvar" id="botaoSalvar" data-bind="click: $root.save">Salvar</button>
+        <button class="btnAlterar" id="botaoEditar" data-bind="click: $root.update">Alterar</button>
+
+    </div>
+
+    <div class="listagrid">
+        <table>
+            <tr>
+                <td>
+                    <div class="FixedContainer">
+                        <table class="tabela">
+                            <thead>
+                                <tr>
+                                    <td class="tituloTabela"> Id </td>
+                                    <td class="tituloTabela"> Nome </td>
+                                    <td class="tituloTabela"> Cpf </td>
+                                    <td class="tituloTabela"> Sexo </td>
+                                    <td class="tituloTabela"> Idade </td>
+                                    <td class="tituloTabela"> Cidade </td>
+                                    <td class="tituloTabela"> Estado </td>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: Pessoas">
+                                <tr style="border: solid" data-bind="click: $root.getselectedpessoa" id="updtr">
+                                    <td class="coluna"> <span data-bind="text: id"></span></td>
+                                    <td class="coluna"> <span data-bind="text: nome"></span></td>
+                                    <td class="coluna"> <span data-bind="text: cpf"></span></td>
+                                    <td class="coluna"> <span data-bind="text: sexo"></span></td>
+                                    <td class="coluna"> <span data-bind="text: idade"></span></td>
+                                    <td class="coluna"> <span data-bind="text: cidade"></span></td>
+                                    <td class="coluna"> <span data-bind="text: estado"></span></td>
+                                    <td class="coluna"> <button class="btnDelete" data-bind="click: $root.deleterec"> Delete</button></td>
+                                    <td class="coluna"> <button class="btnAlterar" onclick="desabilitaBotaoNovo()" data-bind="click: $root.preencher"> Editar</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script type="text/javascript">
+        var PessoaViewModel = function () {
+            var self = this;
+
+            self.Id = ko.observable("0");
+            self.Nome = ko.observable("");
+            self.Cpf = ko.observable("");
+            self.Sexo = ko.observable("");
+            self.Idade = ko.observable("");
+            self.Cidade = ko.observable("");
+            self.Estado = ko.observable("");
+
+            var PessoaData = {
+                Id: self.Id,
+                Nome: self.Nome,
+                Cpf: self.Cpf,
+                Sexo: self.Sexo,
+                Idade: self.Idade,
+                Cidade: self.Cidade,
+                Estado: self.Estado
+            };
+
+            self.Pessoas = ko.observableArray([]);
+
+            self.save = function () {
+
+                if (self.Nome() === "" ||
+                    self.Cpf() === "" ||
+                    self.Sexo() === "" ||
+                    self.Idade() === "" ||
+                    self.Cidade() === "" ||
+                    self.Estado() === "") {
+
+                    alert("Há campos vazios, favor preencher !")
+                } else {
+
+                    PessoaData = {
+                        Id: self.Id,
+                        Nome: self.Nome,
+                        Cpf: self.Cpf,
+                        Sexo: self.Sexo,
+                        Idade: self.Idade,
+                        Cidade: self.Cidade,
+                        Estado: self.Estado
+                    };
+
+                    console.log("antes");
+                    console.log(PessoaData);
+                    if (typeof PessoaData === 'object') {
+                        PessoaData = ko.toJSON(PessoaData);
+                    }
+                    console.log("depois");
+                    console.log(PessoaData);
+                    $.ajax({
+                        type: "POST",
+                        url: "https://localhost:44304/pessoa/salvar",
+                        contentType: "application/json",
+                        data: PessoaData
+                    })
+                        .done(function (data) {
+                            alert("Pessoa Cadastrada com sucesso");
+                            self.Id(data.Id);
+                            pvm.carregar();
+
+                        });
+                    pvm.limparCadastro();
+                }
+            };
+
+            self.update = function (pessoa) {
+
+                // PessoaData = ko.toJSON(PessoaData);
+
+                if (self.Nome() === "" ||
+                    self.Cpf() === "" ||
+                    self.Sexo() === "" ||
+                    self.Idade() === "" ||
+                    self.Cidade() === "" ||
+                    self.Estado() === "") {
+
+                    alert("Há campos vazios, favor preencher !")
+                } else {
+
+                    var url = "https://localhost:44304/pessoa/editar";
+                    $.ajax({
+                        method: "PUT",
+                        url: url,
+                        data: ko.toJSON(pessoa),
+                        dataType: 'json',
+                        contentType: "application/json"
+                    })
+                        .done(function (data) {
+                            alert("Cadastro alterado com sucesso");
+                            pvm.carregar();
+                        });
+                    pvm.limparCadastro();
+                }
+            }
+
+            self.deleterec = function (pessoa) {
+
+                console.log(PessoaData.Id);
+                PessoaData = ko.toJSON(PessoaData);
+                console.log(PessoaData.Id);
+                console.log(pessoa.id);
+                let id = pessoa.id;
+                $.ajax({
+                    method: "DELETE",
+                    url: "https://localhost:44304/pessoa/deletar/" + pessoa.id,
+                    contentType: "application/json",
+                    data: id,
+                })
+                    .done(function (data) {
+                        alert("Pessoa Excluída com sucesso");
+                        pvm.carregar();
+                    });
+            }
+
+            self.carregar = function GetPessoas() {
+
+                $.get("https://localhost:44304/pessoa/listar")
+                    .done(function (resul) {
+
+                        self.Pessoas(resul);
+
+                    });
+
+            }
+
+            self.getselectedpessoa = function (pessoa) {
+                self.Id(pessoa.id),
+                    self.Nome(pessoa.nome),
+                    self.Cpf(pessoa.cpf),
+                    self.Sexo(pessoa.sexo),
+                    self.Idade(pessoa.idade),
+                    self.Cidade(pessoa.cidade),
+                    self.Estado(pessoa.estado)
+            };
+
+            self.limparCadastro = function () {
+                self.Id("0"),
+                    self.Nome(""),
+                    self.Cpf(""),
+                    self.Sexo(""),
+                    self.Idade(""),
+                    self.Cidade(""),
+                    self.Estado("")
+
+                console.log("limpar");
+                console.log(self.Estado);
+            };
+
+        }
+
+
+
+        pvm = new PessoaViewModel();
+        ko.applyBindings(pvm);
+        pvm.carregar();
+
+        $(document).ready(function () {
+            var $seuCampoCpf = $("#textcpf");
+            $seuCampoCpf.mask('000.000.000-00', { reverse: true });
+        });
+
+        function desabilitaBotaoNovo() {
+            console.log("Pegou");
+            document.getElementById('botaoSalvar').disabled = true;
+            document.getElementById('novoCadastro').disabled = false;
+            document.getElementById('botaoEditar').disabled = false;
+        }
+
+        function novaPessoa() {
+            console.log("Nova Pessoa");
+
+            document.getElementById('botaoSalvar').disabled = false;
+            document.getElementById('botaoEditar').disabled = true;
+        }
+    </script>
+    
+    
+</body>
+</html>

@@ -1,0 +1,195 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<html>
+
+<h2> Create </h2>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script src="js/knockout.js"></script>
+
+</head>
+
+<body>
+    <form>
+        <table>
+            <tr>
+                <td>
+                    <table id="tbldml">
+                        <tr>
+                            <td> ID </td>
+                            <td> <input type="text" id="textid" data-bind="value: $root.Id" disabled="disabled" /> </td>
+                        </tr>
+                        <tr>
+                            <td> Nome </td>
+                            <td> <input type="text" id="textnome" data-bind="value: $root.Nome" /> </td>
+                        </tr>
+                        <tr>
+                            <td> Cpf </td>
+                            <td> <input type="text" id="textcpf" data-bind="value: $root.Cpf" /> </td>
+                        </tr>
+                        <tr>
+                            <td> sexo </td>
+                            <td> <input type="text" id="textsexo" data-bind="value: $root.Sexo" /> </td>
+                        </tr>
+                        <tr>
+                            <td> idade </td>
+                            <td> <input type="text" id="textidade" data-bind="value: $root.Idade" /> </td>
+                        </tr>
+                        <tr>
+                            <td> cidade </td>
+                            <td> <input type="text" id="textcidade" data-bind="value: $root.Cidade" /> </td>
+                        </tr>
+                        <tr>
+                            <td> estado </td>
+                            <td> <input type="text" id="textestado" data-bind="value: $root.Estado" /> </td>
+                        </tr>
+                        <tr>
+                            <td> <button data-bind="click: $root.save">Save</button></td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <div class="FixedContainer">
+                        <table data-bind="visible: Pessoas().length > 0" style="border: double">
+                            <thead>
+                                <tr>
+                                    <td> Id </td>
+                                    <td> Nome </td>
+                                    <td> Cpf </td>
+                                    <td> Sexo </td>
+                                    <td> Idade </td>
+                                    <td> Cidade </td>
+                                    <td> Estado </td>
+                                </tr>
+                            </thead>
+                            <tbody data-bind="foreach: Pessoas">
+                                <tr style="border: solid" data-bind="click: $root.getselectedpessoa" id="updtr">
+                                    <td> <span data-bind="text: Id"></span></td>
+                                    <td> <span data-bind="text: Nome"></span></td>
+                                    <td> <span data-bind="text: Cpf"></span></td>
+                                    <td> <span data-bind="text: Sexo"></span></td>
+                                    <td> <span data-bind="text: Idade"></span></td>
+                                    <td> <span data-bind="text: Cidade"></span></td>
+                                    <td> <span data-bind="text: Estado"></span></td>
+                                    <td> <button data-bind="click: $root.deleterec"> Delete</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script type="text/javascript">
+        var PessoaViewModel = function () {
+            var self = this;
+
+            self.Id = ko.observable("0");
+            self.Nome = ko.observable("");
+            self.Cpf = ko.observable("");
+            self.Sexo = ko.observable("");
+            self.Idade = ko.observable("");
+            self.Cidade = ko.observable("");
+            self.Estado = ko.observable("");
+
+            var PessoaData = {
+                Id: self.Id,
+                Nome: self.Nome,
+                Cpf: self.Cpf,
+                Sexo: self.Sexo,
+                Idade: self.Idade,
+                Cidade: self.Cidade,
+                Estado: self.Estado
+            };
+
+            self.Pessoas = ko.observableArray([]);
+
+            GetPessoas();
+
+            self.save = function () {
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:44304//pessoa/salvar",
+                    data: ko.toJSON(PessoaData),
+                    contentType: "application/json",
+                    sucess: function (data) {
+                        alert("Pessoa Cadastrada com sucesso");
+                        self.Id(data.Id);
+                        alert("A Pessoa Inserida é: " + self.Id());
+                        GetPessoas();
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+            };
+
+            self.update = function () {
+                var url = "https://localhost:44304//pessoa/editar" + self.Id;
+                alert(url);
+                $.ajax({
+                    type: "PUT",
+                    url: url,
+                    data: ko.toJSON(PessoaData),
+                    contentType: "application/json",
+                    sucess: function (data) {
+                        alert("Pessoa Atualizada com sucesso");
+                        GetPessoas();
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            }
+
+            self.deleterec = function (pessoa) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "https://localhost:44304//pessoa/deletar/" + pessoa.Id,
+                    sucess: function (data) {
+                        alert("Pessoa Excluída com sucesso");
+                        GetPessoas();
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            }
+
+            function GetPessoas() {
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:44304//pessoa/listar",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    sucess: function (data) {
+                        self.Pessoas(data);
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            }
+
+            self.getselectedpessoa = function (pessoa) {
+                self.Id(pessoa.Id),
+                    self.Nome(pessoa.Nome),
+                    self.Cpf(pessoa.Cpf),
+                    self.Sexo(pessoa.Sexo),
+                    self.Idade(pessoa.Idade),
+                    self.Cidade(pessoa.Cidade),
+                    self.Estado(pessoa.Estado)
+            };
+
+            ko.applyBindings(new PessoaViewModel());
+
+
+        }
+    </script>
+</body>
+</html>

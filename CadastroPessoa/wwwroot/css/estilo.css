@@ -1,0 +1,166 @@
+﻿
+.frm{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.listagrid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+table input {
+    outline: unset;
+    padding: 20px;
+    text-align: center;
+    width: 400px;
+    height: 10px;
+    border: 0.3px solid #808080;
+    border-radius: 20px;
+}
+
+    table input:focus {
+        background-color: #F8F8FF;
+    }
+
+.SelectSexo {
+    padding: 10px;
+    text-align: center;
+    width: 400px;
+    border: 0.3px solid #808080;
+    border-radius: 20px;
+}
+
+    .SelectSexo:focus {
+        background-color: #F8F8FF;
+    }
+
+.labelForm{
+    color: dimgrey;
+    font-size:20px;
+}
+
+.btnNovo {
+    background-color: #0088cc;
+    color: #fff;
+    padding: 5px 8px;
+    border: 1px solid #0088cc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all .3s ease;
+}
+
+.btnNovo:hover{
+    background-color: #fff;
+    color: #0088cc;
+}
+
+    .btnNovo:disabled {
+        background-color: #ccc;
+        border: 1px solid #ccc;
+    }
+
+
+.btnAlterar {
+    background-color: #ed9c28;
+    color: #fff;
+    padding: 5px 8px;
+    border: 1px solid #ed9c28;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all .3s ease;
+    margin-left: 10px;
+}
+
+    .btnAlterar:disabled {
+        background-color: #ccc;
+        border: 1px solid #ccc;
+    }
+
+    .btnAlterar:hover {
+        background-color: #fff;
+        color: #ed9c28;
+    }
+
+.btnSalvar {
+    background-color: #47a447;
+    color: #fff;
+    padding: 5px 8px;
+    border: 1px solid #47a447;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all .3s ease;
+    margin-left: 10px;
+}
+
+    .btnSalvar:disabled {
+        background-color: #ccc;
+        border: 1px solid #ccc;
+    }
+
+.btnSalvar:hover {
+        background-color: #fff;
+        color: #47a447;
+}
+
+.btnDelete {
+    background-color: #d2322d;
+    color: #fff;
+    padding: 5px 8px;
+    border: 1px solid #d2322d;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all .3s ease;
+    margin-left: 10px;
+}
+
+    .btnDelete:hover {
+        background-color: #fff;
+        color: #d2322d;
+    }
+
+
+.botoes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.tabela {
+    border: 1px solid #ddd;
+    padding: 8px;
+    
+}
+
+.tabela td {
+        border: 1px solid #ddd;    
+        border-collapse: collapse;
+}
+
+span{
+    color: gray;
+}
+
+
+.coluna {
+    padding: 20px;
+}
+
+.tituloTabela{
+    color: dimgrey;
+    border: none;
+}
+
+#textnome:required ~ label::after {
+    content: " (obrigatório)";
+    font-size: 0.8em;
+    color: #000;
+}
